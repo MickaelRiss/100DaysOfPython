@@ -1,5 +1,3 @@
-from traceback import print_tb
-
 MENU = {
     "espresso": {
         "ingredients": {
@@ -93,8 +91,11 @@ def check_transaction_successful(product, money):
 
 
 def update_coffee_machine(choice):
-    print("Votre choix est", MENU[choice])
-    print(resources)
+    for key in MENU[choice]["ingredients"]:
+        if key in resources:
+            resources[key] = resources[key] - MENU[choice]["ingredients"][key]
+
+    resources["money"] += MENU[choice]["cost"]
 
 
 # Process choice made by user
@@ -106,6 +107,7 @@ def process_choice(answer):
             total = insert_coins()
             if check_transaction_successful(answer, total):
                 update_coffee_machine(answer)
+                print(f"Here is your {answer}. Enjoy!")
 
 
 def coffee_machine():
