@@ -1,23 +1,15 @@
-class User:
-    def __init__(self, user_id, username):
-        self.id = user_id
-        self.username = username
-        self.followers = 0
-        self.following = 0
+from question_model import Question
+from data import question_data
+from quiz_brain import Quiz
 
-    def follow(self, user):
-        user.followers += 1
-        self.following += 1
+question_bank = []
+for question in question_data:
+    question_bank.append(Question(question["text"], question["answer"]))
 
-user_1 = User(1,"Mickael")
-user_2 = User(2,"Chloe")
+print(question_bank[0].text)
+quiz = Quiz(question_bank)
 
-print("Avant le follow:")
-print(f"{user_1.username} a {user_1.followers} followers et follow {user_1.following} personnes.")
-print(f"{user_2.username} a {user_2.followers} followers et follow {user_2.following} personnes.")
+while quiz.still_has_question():
+    quiz.next_question()
 
-user_1.follow(user_2)
-
-print("Apres le follow:")
-print(f"{user_1.username} a {user_1.followers} followers et follow {user_1.following} personnes.")
-print(f"{user_2.username} a {user_2.followers} followers et follow {user_2.following} personnes.")
+quiz.quiz_completed()
