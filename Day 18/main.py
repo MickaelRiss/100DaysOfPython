@@ -1,45 +1,35 @@
 import turtle as t
+import colorgram
 import random
 
+# colors = colorgram.extract('image.jpg', 30)
+# rgb_colors = []
+# for color in colors:
+#     r = color.rgb.r
+#     g = color.rgb.g
+#     b = color.rgb.b
+#     new_color = (r, g, b)
+#     rgb_colors.append(new_color)
+
+color_list = [(229, 228, 226), (225, 223, 224), (199, 175, 118), (125, 36, 24), (187, 158, 50), (170, 105, 56), (5, 57, 83), (222, 223, 226), (200, 216, 205), (108, 67, 85), (39, 36, 35), (86, 142, 58), (20, 123, 176), (110, 161, 175), (75, 39, 47), (9, 67, 47), (64, 153, 137), (133, 41, 43), (184, 98, 80), (179, 201, 186), (210, 200, 113), (179, 175, 177), (151, 176, 164), (93, 142, 156), (28, 80, 59), (194, 190, 192), (17, 78, 98), (213, 184, 173), (145, 116, 121), (176, 197, 202)]
 t.colormode(255)
-timmy = t.Turtle()
-timmy.shape("turtle")
-timmy.color("forest green")
-colors = ["cornflower blue","midnight blue","midnight blue","medium sea green","medium sea green","dark green","light yellow","dark khaki","gold","peru","saddle brown","navajo white","light salmon","orange red","red","hot pink","purple","thistle","blue violet"]
-directions = [0, 90, 180, 270]
-timmy.pensize(1)
-timmy.speed(0)
+turtle = t.Turtle()
+turtle.shape()
+turtle.pensize(1)
+turtle.speed(0)
+turtle.penup()
+turtle.hideturtle()
 
-# def draw_shapes(num_sides):
-#     angle = 360 / num_sides
-#     for _ in range(num_sides):
-#         timmy.left(angle)
-#         timmy.forward(100)
-#
-# for shape_side_n in range (3, 11):
-#     timmy.color(random.choice(colors))
-#     draw_shapes(shape_side_n)
+def draw_line():
+    for _ in range(0, 10):
+        turtle.pendown()
+        turtle.dot(20, random.choice(color_list))
+        turtle.penup()
+        turtle.forward(50)
 
-def generate_color():
-    r = random.randint(0, 256)
-    g = random.randint(0, 256)
-    b = random.randint(0, 256)
-    color = (r, g, b)
-    return color
-#
-# for _ in range(20):
-#     timmy.circle(50)
-#     timmy.color(generate_color())
-#     timmy.forward(100)
-#     timmy.setheading(random.choice(directions))
-
-r = 100 # radius
-
-for i in range(360):
-    if i % 10 == 0:
-        timmy.color(generate_color())
-        timmy.setheading(i+10)
-        timmy.circle(r)
+for i in range (0, 10):
+    turtle.setpos(-100, -100 + (i * 50))
+    draw_line()
 
 screen = t.Screen()
 screen.exitonclick()
