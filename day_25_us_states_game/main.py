@@ -1,29 +1,21 @@
-# import csv
+import pandas as pd
 
-# with open("weather_data.csv") as f:
-#     data = csv.reader(f)
-#     temperatures = []
-#     for row in data:
-#         if row[1] != "temp":
-#             temperatures.append(int(row[1]))
-    
-#     print(temperatures)
+f = pd.read_csv("squirel.csv")
 
-import pandas
+datas = f.get(["Hectare Squirrel Number","Primary Fur Color"])
 
-# data = pandas.read_csv("weather_data.csv")
-# temperatures = data.temp.to_list()
-# # print(temperatures)
-# monday = data[data.day == "Monday"]
-# temp = monday.temp[0]
-# print(temp) 
-# fahrenheit = (temp * 9/5) + 32
-# print(fahrenheit) 
+gray = datas[datas["Primary Fur Color"] == "Gray"]
+cinnamon = datas[datas["Primary Fur Color"] == "Cinnamon"]
+black = datas[datas["Primary Fur Color"] == "Black"]
+
+gray_sum = sum(gray["Hectare Squirrel Number"])
+cinnamon_sum = sum(cinnamon["Hectare Squirrel Number"])
+black_sum = sum(black["Hectare Squirrel Number"])
 
 new_data = {
-    "students": ["Amy", "James", "Angela"],
-    "scores": [76, 56, 84]
+    "Fur Color": ["gray", "red", "black"],
+    "Count": [gray_sum, cinnamon_sum, black_sum]
 }
 
-data = pandas.DataFrame(new_data)
-data.to_csv("new_data.csv")
+new_file = pd.DataFrame(new_data)
+new_file.to_csv("squirrel_count.csv")
