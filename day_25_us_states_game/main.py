@@ -1,21 +1,36 @@
+import turtle
 import pandas as pd
 
-f = pd.read_csv("squirel.csv")
+image = "blank_states_img.gif"
+screen = turtle.Screen()
+screen.title("U.S State Game")
+screen.addshape(image)
+turtle.shape(image)
 
-datas = f.get(["Hectare Squirrel Number","Primary Fur Color"])
+data = pd.read_csv("50_states.csv")
+all_states = data.state.to_list()
+guessed_states = []
 
-gray = datas[datas["Primary Fur Color"] == "Gray"]
-cinnamon = datas[datas["Primary Fur Color"] == "Cinnamon"]
-black = datas[datas["Primary Fur Color"] == "Black"]
+while len(guessed_states) < 50:
+    answer = screen.textinput(title=f"{len(guessed_states)}/50 States Correct", prompt="What's another state's name?").title()
+    if answer in all_states:
+        t = turtle.Turtle()
+        t.hideturtle()
+        t.hideturtle()
+        t.penup()
+        state_data = data[data.state == answer]
+        t.goto(state_data.x.item(), state_data.y.item())
+        t.write(state_data.state.item(), align="center")
+        guessed_states.append(answer)
+        all_states.remove(answer)
 
-gray_sum = sum(gray["Hectare Squirrel Number"])
-cinnamon_sum = sum(cinnamon["Hectare Squirrel Number"])
-black_sum = sum(black["Hectare Squirrel Number"])
+    if answer == "Stop":
+        break 
 
-new_data = {
-    "Fur Color": ["gray", "red", "black"],
-    "Count": [gray_sum, cinnamon_sum, black_sum]
-}
+if len(all_states) > 0:
+    states_to_learn = {
+        "states": all_states
+    }
 
-new_file = pd.DataFrame(new_data)
-new_file.to_csv("squirrel_count.csv")
+    new_file = pd.DataFrame(states_to_learn)
+    new_file.to_csv("states_to_learn.csv")
