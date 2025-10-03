@@ -8,6 +8,13 @@ letters = {row.letter:row.code for (index, row) in df.iterrows()}
 name = input("What's your name?").upper()
 
 # phonetic_code = [value for (index, value) in letters.items() if index in name]
-phonetic_code = [letters[value] for value in name]
-
-print(phonetic_code)
+not_valid = True
+while not_valid:
+    try:
+        phonetic_code = [letters[value] for value in name]
+    except KeyError:
+        print("Sorry, only letters in the alphabet please")
+        name = input("What's your name?").upper()
+    else:
+        print(phonetic_code)
+        not_valid = False
