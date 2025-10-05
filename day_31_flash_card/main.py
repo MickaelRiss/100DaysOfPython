@@ -7,10 +7,17 @@ window = Tk()
 window.title("Flash Card")
 window.configure(background=BACKGROUND_COLOR, padx=50, pady=50)
 current_card = {}
+translations = {}
 
 # ---------------------- PICK RANDOM WORD ---------------------- #
-df = pd.read_csv("./data/portuguese_words.csv")
-translations = df.to_dict(orient="records")
+
+try:
+    df = pd.read_csv("./data/words_to_learn.csv")
+except FileNotFoundError:
+    df = pd.read_csv("./data/portuguese_words.csv")
+    translations = df.to_dict(orient="records")
+else:
+    translations = df.to_dict(orient="records")
 
 # ---------------------- FUNCTIONS ---------------------- #
 def next_card():
@@ -26,6 +33,13 @@ def flip_card():
     card.itemconfig(image, image=card_back_image)
     card.itemconfig(lang, text="French", fill="#FFFFFF")
     card.itemconfig(word, text=current_card["French"], fill="#FFFFFF")
+
+def right():
+    global translations
+    translations.remove(current_card)
+    data = pd.DataFrame(translations)
+    data.to_csv("./data/words_to_learn.csv", index=False)
+    next_card()
 
 # ---------------------- CARD ---------------------- #
 card_front_image = PhotoImage(file="./images/card_front.png") 
@@ -43,7 +57,7 @@ wrong_button.grid(row=1, column=0)
 
 # ---------------------- RIGHT ---------------------- #
 right_image = PhotoImage(file="./images/right.png")
-right_button = Button(image=right_image, bd=0, highlightthickness=0, command=next_card)
+right_button = Button(image=right_image, bd=0, highlightthickness=0, command=right)
 right_button.grid(row=1, column=1)
 
 # ---------------------- START APP ---------------------- #
