@@ -6,6 +6,7 @@ sheet_data = data_manager.get_destination_data()
 
 if sheet_data[0]["iataCode"] == "":
     flight_search = FlightSearch()
+
     for row in sheet_data:
         row["iataCode"] = flight_search.get_dest_code(row["city"])
     print(sheet_data)
