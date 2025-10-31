@@ -2,10 +2,9 @@ import os
 import requests
 from requests.auth import HTTPBasicAuth
 from dotenv import load_dotenv
-from pprint import pprint
 
 load_dotenv()
-SHEETY_PRICES_ENDPOINT = "https://api.sheety.co/8019fe59908391271e5d3ddcc72af8f4/flightDeals/prices "
+SHEETY_PRICES_ENDPOINT = "https://api.sheety.co/8019fe59908391271e5d3ddcc72af8f4/flightDeals/prices"
 
 class DataManager:
     def __init__(self):
@@ -17,12 +16,10 @@ class DataManager:
     def get_destination_data(self):
         response = requests.get(url=SHEETY_PRICES_ENDPOINT, auth=self._authorization)
         data = response.json()
-        print(response.raise_for_status())
         self.destination_data = data["prices"]
-        pprint(self.destination_data)
         return  self.destination_data
 
-    def update_deals(self):
+    def update_destinations(self):
         for city in self.destination_data:
             new_data = {
                 "price": {

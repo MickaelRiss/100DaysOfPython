@@ -33,7 +33,15 @@ class FlightSearch:
             "keyword": city_name
         }
         response = requests.get(url=CITY_SEARCH_URL, headers=headers, params=params)
-        data = response.json()
-        iata_code = data["data"][0]["iataCode"]
-        print(iata_code)
+
+        try:
+            iata_code = response.json()["data"][0]["iataCode"]
+            print(iata_code)
+        except IndexError:
+            print(f"IndexError: No airport code found for {city_name}.")
+            return "N/A"
+        except KeyError:
+            print(f"KeyError: No airport code found for {city_name}.")
+            return "Not found"
+
         return iata_code
