@@ -1,13 +1,29 @@
 from bs4 import BeautifulSoup
+import requests
 
-with open("website.html") as f:
-    contents = f.read()
+response = requests.get("https://appbrewery.github.io/news.ycombinator.com/")
+web_page = response.text
 
-soup = BeautifulSoup(markup=contents, features="html.parser")
-all_anchor_a = soup.find_all(name="a")
+soup = BeautifulSoup(markup=web_page, features="html.parser")
+# article_tag = soup.find(name="a", class_="storylink")
+# print(article_tag)
+# article_text = article_tag.get_text()
+# print(article_text)
+# article_link = article_tag.get("href")
+# print(article_link)
+# article_upvote = soup.find(name="span", class_="score").get_text()
+# print(article_upvote)
 
-# for tag in all_anchor_a:
-#     print(tag.get("href"))
+articles_tag = soup.find_all(name="a", class_="storylink")
+articles = [{"text": article.get_text(), "link": article.get("href")} for article in articles_tag]
+articles_upvotes = [int(vote.get_text().split()[0]) for vote in soup.find_all(name="span", class_="score")]
 
-heading = soup.find(name="h1", id="name")
-print(heading)
+highest_vote = max(articles_upvotes)
+highest_vote_index = articles_upvotes.index(highest_vote)
+
+for index, article in enumerate(articles):
+    if index == highest_vote_index:
+        article["vote"] = highest_vote
+        print(article)
+
+
