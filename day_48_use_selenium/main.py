@@ -1,27 +1,22 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 
-# Keep Chrome open
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_experimental_option("detach", True)
 
 driver = webdriver.Chrome(options=chrome_options)
-driver.get("https://www.python.org/")
-# search_bar = driver.find_element(By.NAME, value="q")
-# print(search_bar)
-# button = driver.find_element(By.ID, value="submit")
-# print(button)
+driver.get("https://secure-retreat-92358.herokuapp.com/")
 
-events_time = driver.find_elements(By.CSS_SELECTOR, value=".event-widget time")
-events_name = driver.find_elements(By.CSS_SELECTOR, value=".event-widget li a")
-events = {}
+first_name = driver.find_element(By.CLASS_NAME, value="top")
+last_name = driver.find_element(By.CLASS_NAME, value="middle")
+email = driver.find_element(By.CLASS_NAME, value="bottom")
 
-for n in range(len(events_time)):
-    events[n] = {
-        "time": events_time[n].text,
-        "name": events_name[n].text
-    }
+first_name.send_keys("Mickael")
+last_name.send_keys("Riss")
+email.send_keys("mickael.riss@yahoo.fr", Keys.ENTER)
 
-print(events)
+# search_input = driver.find_element(By.NAME, value="search")
+# search_input.send_keys("Python", Keys.ENTER)
 
 driver.quit()
